@@ -190,6 +190,9 @@ if valid is True:
                     found_flag = True
                     x = icon[1]
                     y = icon[2]
+                    print("%s=> icon_id=%s, (%d,%d) %s: %s" %
+                    (bopo_found,icon[0],x,y,ans["name"],ans["info"])
+                    )
                     # output coordinates
                     if output_x_path is not None and output_x_path is not None:
                         with open(output_x_path,'w') as x_path, open(output_y_path, 'w') as y_path:
@@ -198,9 +201,6 @@ if valid is True:
                     # debug
                     if debug_mode is True:
                         # For debugging
-                        print("%s=> icon_id=%s, (%d,%d) %s: %s" %
-                            (bopo_found,icon[0],x,y,ans["name"],ans["info"])
-                        )
                         new_img = input_img.copy()
                         cv.rectangle(new_img,(x,y),(x+box_size,y+box_size), 255, 8)
                         cv.imshow("pic",new_img)
