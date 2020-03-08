@@ -160,58 +160,58 @@ output_x_path = args.output_x
 output_y_path = args.output_y
 debug_mode = args.debug
 print("img path: %s\nx coord path:%s\ny coord path:%s\ndebug:%d"%(img_path,output_x_path,output_y_path,debug_mode))
-while True:
-    input_img = cv.imread(img_path)
-    # Test if image is loaded completely
-    valid = True
+input_img = cv.imread(img_path)
+
+# Test if image is loaded completely
+valid = True
+for i in box_x:
+    for j in box_y:
+        icon_unknown = input_img[j:j+box_size,i:i+box_size]
+        valid = valid&test(icon_unknown)
+if valid is True:
+    # mapping image to icon object
+    icon_found = []
     for i in box_x:
         for j in box_y:
             icon_unknown = input_img[j:j+box_size,i:i+box_size]
-            valid = valid&test(icon_unknown)
-    if valid is True:
-        # mapping image to icon object
-        icon_found = []
-        for i in box_x:
-            for j in box_y:
-                icon_unknown = input_img[j:j+box_size,i:i+box_size]
-                icon_found_id = findIconId(icon_unknown)
-                icon_found.append((icon_found_id,i,j)) # (id, x, y)
-        # identify bopomofo
-        bopo_unknown = input_img[bopo_x:bopo_x+bopo_size,bopo_y:bopo_y+bopo_size]
-        bopo_found = findBOPO(bopo_unknown)
-        # select optimal solution
-        answer_list = filterFcn(bopo_found)
-        found_flag = False
-        for ans in answer_list:
-                if found_flag is True:
-                    break
-                for icon in icon_found:
-                    if ans["icon_id"] == icon[0]:
-                        found_flag = True
-                        x = icon[1]
-                        y = icon[2]
-                        # output coordinates
-                        if output_x_path is not None and output_x_path is not None:
-                            with open(output_x_path,'w') as x_path, open(output_y_path, 'w') as y_path:
-                                x_path.write("%d"%x)
-                                y_path.write("%d"%y)
-                        # debug
-                        if debug_mode is True:
-                            # For debugging
-                            print("%s=> icon_id=%s, (%d,%d) %s: %s" %
-                                (bopo_found,icon[0],x,y,ans["name"],ans["info"])
-                            )
-                            new_img = input_img.copy()
-                            cv.rectangle(new_img,(x,y),(x+box_size,y+box_size), 255, 8)
-                            cv.imshow("pic",new_img)
-                            cv.waitKey()
-                            sys.exit(0)
-    else:
-        # output coordinates
-        if output_x_path is not None and output_x_path is not None:
-            with open(output_x_path,'w') as x_path, open(output_y_path, 'w') as y_path:
-                x_path.write("%d"%-1)
-                y_path.write("%d"%-1)
-        if debug_mode is True:
-            print("Invalid")
-            sys.exit(-1)
+            icon_found_id = findIconId(icon_unknown)
+            icon_found.append((icon_found_id,i,j)) # (id, x, y)
+    # identify bopomofo
+    bopo_unknown = input_img[bopo_x:bopo_x+bopo_size,bopo_y:bopo_y+bopo_size]
+    bopo_found = findBOPO(bopo_unknown)
+    # select optimal solution
+    answer_list = filterFcn(bopo_found)
+    found_flag = False
+    for ans in answer_list:
+            if found_flag is True:
+                break
+            for icon in icon_found:
+                if ans["icon_id"] == icon[0]:
+                    found_flag = True
+                    x = icon[1]
+                    y = icon[2]
+                    # output coordinates
+                    if output_x_path is not None and output_x_path is not None:
+                        with open(output_x_path,'w') as x_path, open(output_y_path, 'w') as y_path:
+                            x_path.write("%d"%x)
+                            y_path.write("%d"%y)
+                    # debug
+                    if debug_mode is True:
+                        # For debugging
+                        print("%s=> icon_id=%s, (%d,%d) %s: %s" %
+                            (bopo_found,icon[0],x,y,ans["name"],ans["info"])
+                        )
+                        new_img = input_img.copy()
+                        cv.rectangle(new_img,(x,y),(x+box_size,y+box_size), 255, 8)
+                        cv.imshow("pic",new_img)
+                        cv.waitKey()
+                        sys.exit(0)
+else:
+    # output coordinates
+    if output_x_path is not None and output_x_path is not None:
+        with open(output_x_path,'w') as x_path, open(output_y_path, 'w') as y_path:
+            x_path.write("%d"%-1)
+            y_path.write("%d"%-1)
+    if debug_mode is True:
+        print("Invalid")
+        sys.exit(-1)
