@@ -190,6 +190,11 @@ while True:
                         found_flag = True
                         x = icon[1]
                         y = icon[2]
+                        # output coordinates
+                        if output_x_path is not None and output_x_path is not None:
+                            with open(output_x_path,'w') as x_path, open(output_y_path, 'w') as y_path:
+                                x_path.write("%d"%x)
+                                y_path.write("%d"%y)
                         # debug
                         if debug_mode is True:
                             # For debugging
@@ -202,6 +207,11 @@ while True:
                             cv.waitKey()
                             sys.exit(0)
     else:
+        # output coordinates
+        if output_x_path is not None and output_x_path is not None:
+            with open(output_x_path,'w') as x_path, open(output_y_path, 'w') as y_path:
+                x_path.write("%d"%-1)
+                y_path.write("%d"%-1)
         if debug_mode is True:
             print("Invalid")
             sys.exit(-1)
