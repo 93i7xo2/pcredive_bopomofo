@@ -104,19 +104,21 @@ def findIconId(img):
 def test(img):
     # test if the image is a valid icon
     img=cv.cvtColor(img, cv.COLOR_BGR2GRAY) 
-    ret, img=cv.threshold(img,245,255,cv.THRESH_BINARY)
+    ret, img=cv.threshold(img,200,255,cv.THRESH_BINARY)
     # step1: border exist
-    left = img[5:6,:]
-    right = img[-5:-6,:]
-    top = img[:,5:6]
-    bottom = img[:,-5:-6]
+    left = img[5:6,5:-5]
+    right = img[-5:-6,5:-5]
+    top = img[5:-5,5:6]
+    bottom = img[5:-5,-5:-6]
     count = cv.countNonZero(left) + cv.countNonZero(right) + cv.countNonZero(top) + cv.countNonZero(left) +cv.countNonZero(bottom)
-    if count/4 < img.shape[0]*0.6:
+    if count/4 < img.shape[0]*0.5:
         #print("Border doesn't exist")
         return False
     # setp2: white spot doesn't exist
+    top_right = img[23:43,63:83]
     center = img[43:63,43:63]
-    if cv.countNonZero(center)> 400*0.8:
+    bottom_left = img[63:83,23:43]
+    if cv.countNonZero(top_right)+cv.countNonZero(center)+cv.countNonZero(bottom_left)>= 3*400*0.95:
         #print("Broken image")
         return False
     return True
@@ -131,6 +133,7 @@ def parse_args():
     parser.add_argument('--input', help='The path of image')
     parser.add_argument('--output_x', help='x-coordinate', default=None)
     parser.add_argument('--output_y', help='y-coordinate', default=None)
+    parser.add_argument('--debug', type=bool, help='The path of image',default=False)
     args = parser.parse_args()
 
     if args.input is None:
@@ -155,7 +158,8 @@ args = parse_args()
 img_path = args.input
 output_x_path = args.output_x
 output_y_path = args.output_y
-print(img_path,output_x_path,output_y_path)
+debug_mode = args.debug
+print("img path: %s\nx coord path:%s\ny coord path:%s\ndebug:%d"%(img_path,output_x_path,output_y_path,debug_mode))
 while True:
     input_img = cv.imread(img_path)
     # Test if image is loaded completely
@@ -178,7 +182,6 @@ while True:
         # select optimal solution
         answer_list = filterFcn(bopo_found)
         found_flag = False
-
         for ans in answer_list:
                 if found_flag is True:
                     break
@@ -187,14 +190,18 @@ while True:
                         found_flag = True
                         x = icon[1]
                         y = icon[2]
-                        # For debugging
-                        print("%s=> icon_id=%s, (%d,%d) %s: %s" %
-                            (bopo_found,icon[0],x,y,ans["name"],ans["info"])
-                        )
-                        # new_img =cv.cvtColor(input_img,cv.COLOR_BGR2RGB)
-                        # cv.rectangle(new_img,(x,y),(x+box_size,y+box_size), 255, 8)
-                        # plt.imshow(new_img)
-                        # plt.xticks([]), plt.yticks([])
-                        # plt.pause(0.05)
+                        # debug
+                        if debug_mode is True:
+                            # For debugging
+                            print("%s=> icon_id=%s, (%d,%d) %s: %s" %
+                                (bopo_found,icon[0],x,y,ans["name"],ans["info"])
+                            )
+                            new_img = input_img.copy()
+                            cv.rectangle(new_img,(x,y),(x+box_size,y+box_size), 255, 8)
+                            cv.imshow("pic",new_img)
+                            cv.waitKey()
+                            sys.exit(0)
     else:
-        print("Invalid")
+        if debug_mode is True:
+            print("Invalid")
+            sys.exit(-1)

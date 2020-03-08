@@ -1,8 +1,9 @@
 # RAMDISK使用教學
-
+```
 mkdir /tmp/ramfs
 sudo mount -t ramfs ramfs /tmp/ramfs
 sudo chmod o+rwx /tmp/ramfs
+```
 
 # USAGE
 1. scrcpy顯示手機畫面
