@@ -159,7 +159,7 @@ img_path = args.input
 output_x_path = args.output_x
 output_y_path = args.output_y
 debug_mode = args.debug
-print("img path: %s\nx coord path:%s\ny coord path:%s\ndebug:%d"%(img_path,output_x_path,output_y_path,debug_mode))
+#print("img path: %s\nx coord path:%s\ny coord path:%s\ndebug:%d"%(img_path,output_x_path,output_y_path,debug_mode))
 input_img = cv.imread(img_path)
 
 # Test if image is loaded completely
