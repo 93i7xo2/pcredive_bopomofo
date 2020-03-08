@@ -1,8 +1,16 @@
 # RAMDISK使用教學
-```
 mkdir /tmp/ramfs
 sudo mount -t ramfs ramfs /tmp/ramfs
 sudo chmod o+rwx /tmp/ramfs
+
+# Build
+```
+apt install python3-opencv
+python3 -m pip install matplotlib
+```
+# Test
+```
+make test
 ```
 
 # USAGE
@@ -10,7 +18,7 @@ sudo chmod o+rwx /tmp/ramfs
     ```
     ./scrcpy
     ```
-    改過的scrcpy會將畫面存放在`somewhere`、並讀取`x`,`y`做為滑鼠點擊座標，`x`,`y`皆為-1時不點擊
+    改過的scrcpy會將畫面存放在`somewhere`、並讀取`x`,`y`做為滑鼠點擊座標，`x`,`y`皆為0時不點擊
 
 2. 辨識小程式
     讀取scrcpy存下的畫面進行辨識
