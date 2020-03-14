@@ -5,9 +5,10 @@ build:
 	python3 genDB.py
 
 run:
-	@echo nothing
+	python3 main.py
 
 clean:
 	rm -rf findPairInRoundTable.json DB.json
+	
 test:
 	@ echo "Pass"
