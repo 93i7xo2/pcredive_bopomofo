@@ -7,7 +7,7 @@ python3 pip install pyscreenshot
 ```
 
 # Usage
-Enable android debugging, then ppen `scrcpy`
+Enable android debugging, then open `scrcpy` with `--window-x 50 --window-y 50 --window-borderless`
 ```
 make build
 make run
