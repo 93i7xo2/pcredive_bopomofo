@@ -103,7 +103,7 @@ for b in bopomopo_character_set:
     findPairInRoundTable[b] = {}
     for k in findPairInRoundTableKeys:
         findPairInRoundTable[b][k] = {}
-        for r in range(16):
+        for r in range(30):
             findPairInRoundTable[b][k][str(r)] = None
 
 
