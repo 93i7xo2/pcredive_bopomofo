@@ -15,7 +15,7 @@ for b in tools.bopomopo_character_set:
             len(findPairInRoundTableKeys), \
             count1, \
             len(tools.bopomopo_character_set)))
-        for r in range(16):
+        for r in range(20):
             tools.findPairInRound(b,k,r)
 with open("findPairInRoundTable.json","w", encoding='utf8') as f:
     json.dump(tools.findPairInRoundTable, f, ensure_ascii=False)

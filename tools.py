@@ -116,7 +116,7 @@ def findPairInRound(head, target_info, round):
 
     # final round
     if round >= 15:
-        findPairInRoundTable[head][target_info]['15'] = findPair(
+        findPairInRoundTable[head][target_info][round] = findPair(
             head, target_info)  # save
         return findPair(head, target_info)
 
