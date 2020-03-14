@@ -8,6 +8,11 @@ python3 pip install opencv-python
 # Usage
 Enable android debugging
 Open `scrcpy`
+```
+make build
+make run
+make clean
+```
 
 # Test
 ```
