@@ -2,8 +2,8 @@
 ```
 # for python script
 python3 -m pip install matplotlib
-python3 pip install opencv-python
-python3 pip install pyscreenshot
+python3 -m pip install opencv-python
+python3 -m pip install pyscreenshot
 ```
 
 # Usage
